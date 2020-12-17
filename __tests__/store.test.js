@@ -2,11 +2,15 @@ const fs = require('fs');
 const app = require('../lib/app');
 const request = require('supertest');
 const pool = require('../lib/utils/pool');
-const Book = require('../lib/store');
+const Book = require('../lib/models/Books');
 
 describe('book routes', () => {
   beforeEach(() => {
     return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
+  });
+
+  afterAll(() => {
+    return pool.end();
   });
 
   it('creates a book via POST', () => {
